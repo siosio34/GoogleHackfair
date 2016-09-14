@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "106786463586",
-    "firebase_url": "https://swmaestrobackendproject.firebaseio.com",
-    "project_id": "swmaestrobackendproject",
-    "storage_bucket": "swmaestrobackendproject.appspot.com"
+    "project_number": "339539493591",
+    "firebase_url": "https://hackfair-c7518.firebaseio.com",
+    "project_id": "hackfair-c7518",
+    "storage_bucket": "hackfair-c7518.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:106786463586:android:55d36da2660f1514",
+        "mobilesdk_app_id": "1:339539493591:android:0f0f68de630b8d04",
         "android_client_info": {
-          "package_name": "com.example.siosi.swmaestrobackendproject"
+          "package_name": "com.ar.siosi.Hackfair"
         }
       },
       "oauth_client": [
         {
-          "client_id": "106786463586-02o8s51oidt2u6lhmlnl15kl6ml7rdfp.apps.googleusercontent.com",
+          "client_id": "339539493591-bd7jeraq3eenqr18ab4jagc3sq7upujh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.siosi.swmaestrobackendproject",
-            "certificate_hash": "D79BF136755DA3049A4609C6387CA0D22E38FCEE"
+            "package_name": "com.ar.siosi.Hackfair",
+            "certificate_hash": "461A4EEA1D06D912F5BA34A7122953D8986077AE"
           }
         },
         {
-          "client_id": "106786463586-74eq18ss0vsf8vbg9gejt23eetn3t0ca.apps.googleusercontent.com",
+          "client_id": "339539493591-aabclh0o3mf2o0le6qfutj53lrv3ddcm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAX4X_zNDy5THfYxoSkpt3cfNRkPvJEeWs"
+          "current_key": "AIzaSyDJwrKsFEVKftCiga4qoPSvpFA-j0q5dAM"
         }
       ],
       "services": {
@@ -40,41 +40,10 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "106786463586-74eq18ss0vsf8vbg9gejt23eetn3t0ca.apps.googleusercontent.com",
+              "client_id": "339539493591-aabclh0o3mf2o0le6qfutj53lrv3ddcm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:106786463586:android:da57cf8714f340ac",
-        "android_client_info": {
-          "package_name": "com.ar.siosi.swmaestrobackendproject"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "106786463586-74eq18ss0vsf8vbg9gejt23eetn3t0ca.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAX4X_zNDy5THfYxoSkpt3cfNRkPvJEeWs"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

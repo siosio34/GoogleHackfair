@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ar.siosi.swmaestrobackendproject">
+    package="com.ar.siosi.Hackfair">
 
     <permission
-        android:name="com.ar.siosi.swmaestrobackendproject.mixare.permission.MAPS_RECEIVE"
+        android:name="com.ar.siosi.Hackfair.mixare.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".mixare.MixListView"
+            android:name="com.ar.siosi.Hackfair.mixare.MixListView"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -32,15 +32,15 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".mixare.HttpPostSNS"
-            android:screenOrientation="landscape"></activity>
+            android:name="com.ar.siosi.Hackfair.mixare.HttpPostSNS"
+            android:screenOrientation="landscape" />
         <activity
-            android:name=".mixare.MixView"
+            android:name="com.ar.siosi.Hackfair.mixare.MixView"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
             <intent-filter>
-
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -65,15 +65,15 @@
                 android:name="android.app.default_searchable"
                 android:value=".MixView" />
         </activity>
-        <activity android:name=".mixare.MixareActivity" />
-
-        <activity android:name="com.ar.siosi.swmaestrobackendproject.MainActivity" >
+        <activity android:name="com.ar.siosi.Hackfair.mixare.MixareActivity" />
+        <activity android:name="com.ar.siosi.Hackfair.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="com.ar.siosi.Hackfair.GoogleSignInActivity"></activity>
     </application>
 
 </manifest>
