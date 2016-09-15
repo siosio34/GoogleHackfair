@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name="com.ar.siosi.Hackfair.mixare.MixListView"
+            android:name=".mixare.MixListView"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -32,10 +32,10 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name="com.ar.siosi.Hackfair.mixare.HttpPostSNS"
+            android:name=".mixare.HttpPostSNS"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.ar.siosi.Hackfair.mixare.MixView"
+            android:name=".mixare.MixView"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -65,15 +65,16 @@
                 android:name="android.app.default_searchable"
                 android:value=".MixView" />
         </activity>
-        <activity android:name="com.ar.siosi.Hackfair.mixare.MixareActivity" />
-        <activity android:name="com.ar.siosi.Hackfair.MainActivity">
+        <activity android:name=".mixare.MixareActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ar.siosi.Hackfair.GoogleSignInActivity"></activity>
+        <activity android:name=".GoogleSignInActivity" />
+        <activity android:name=".UserProfile"></activity>
     </application>
 
 </manifest>

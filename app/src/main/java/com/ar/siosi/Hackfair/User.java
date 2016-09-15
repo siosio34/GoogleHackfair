@@ -1,5 +1,7 @@
 package com.ar.siosi.Hackfair;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +10,11 @@ import java.util.List;
  */
 public class User {
 
-
     private String userId;
     private String userName; // 유저 이름
     private String userEmail; // 유저 아이디
     private String userDescription; // 유저 소개
+    private String imageUri;
     private int folloingNumber; // 팔로잉 넘버
     private int followerNumber; // 팔로워 넘버
     public List<String> haveFollowerList = new ArrayList<>();
@@ -20,12 +22,16 @@ public class User {
 
     public static User currentUser = new User();
 
+
+
     public User() {}
-    public User(String userId,String userName,String userEmail,String userDescription,int folloingNumber,int followerNumber,List<String> haveFollowingList,List<String> haveFollowerList) {
+    public User(String userId,String userName,String userEmail,String userDescription,String imageUri,
+                int folloingNumber,int followerNumber,List<String> haveFollowingList,List<String> haveFollowerList) {
         this.userId = userId;
         this.userEmail = userEmail;
         this.userName = userName;
         this.userDescription = userDescription;
+        this.imageUri = imageUri;
         this.folloingNumber = folloingNumber;
         this.followerNumber = followerNumber;
         this.haveFollowerList = haveFollowerList;
@@ -96,5 +102,15 @@ public class User {
     public void setUserDescription(String userDescription) {
         this.userDescription = userDescription;
     }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+
 }
 

@@ -17,7 +17,10 @@
 package com.ar.siosi.Hackfair;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -39,11 +42,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.net.URI;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
@@ -67,11 +73,24 @@ public class GoogleSignInActivity extends BaseActivity implements
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("users");
 
-
-
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private TextView mDetailTextView;
+
+    private final int SPLASH_DELAY_MESSAGE = 100;
+    Handler splashHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+                case SPLASH_DELAY_MESSAGE:
+                    startActivity(new Intent(getApplicationContext(), com.ar.siosi.Hackfair.mixare.MixView.class));
+                default:
+                    break;
+            }
+            return false;
+        }
+    });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +128,14 @@ public class GoogleSignInActivity extends BaseActivity implements
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
 
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     checkBasicUser(user);
-                    Intent arintent = new Intent(getApplicationContext(), com.ar.siosi.Hackfair.mixare.MixView.class);
-                    startActivity(arintent);
+                    splashHandler.sendEmptyMessageDelayed(SPLASH_DELAY_MESSAGE, 1000);
+
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -268,17 +287,37 @@ public class GoogleSignInActivity extends BaseActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+
                 User userValue = dataSnapshot.getValue(User.class);
+                String photoUrl=null;
+                String email;
+                String name;
+
+                String providerId;
+
                 if(userValue == null) {
                     // if uid 가 존재하지 않을경우
-                    User userTemp = new User(firebaseUser.getUid(),firebaseUser.getEmail(),firebaseUser.getDisplayName(),null,0,0,null,null);
+                    for (UserInfo profile : firebaseUser.getProviderData()) {
+                        // Id of the provider (ex: google.com)
+                         providerId = profile.getProviderId();
+
+                        // Name, email address, and profile photo Url
+                         name = profile.getDisplayName();
+                         email = profile.getEmail();
+                         photoUrl = profile.getPhotoUrl().toString();
+
+                    };
+
+                    User userTemp = new User(firebaseUser.getUid(),firebaseUser.getEmail(),firebaseUser.getDisplayName(),null,photoUrl,0,0,null,null);
                     registerUser(uid,userTemp);
+                    User.currentUser = userTemp;
+                    Log.i("신규 유저 정보",User.currentUser.toString());
                 }
                 else { // 존재할경우 -> 불러와야함
-
+                    // TODO: 2016. 9. 15. 여기서 에러가 터지네쓰벌 
+                    User.currentUser = userValue;
+                    Log.i("기존 유저정보",User.currentUser.toString());
                 }
-
-                User.currentUser = userValue;
 
             }
 

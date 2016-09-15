@@ -65,6 +65,7 @@ import android.widget.Toast;
 
 
 import com.ar.siosi.Hackfair.R;
+import com.ar.siosi.Hackfair.UserProfile;
 import com.ar.siosi.Hackfair.mixare.data.DataHandler;
 import com.ar.siosi.Hackfair.mixare.data.DataSource;
 import com.ar.siosi.Hackfair.mixare.gui.PaintScreen;
@@ -322,6 +323,9 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
             myInfoBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Intent myProfileIntent = new Intent(MixView.this,UserProfile.class);
+                    startActivityForResult(myProfileIntent,50);
 
                 }
             });
