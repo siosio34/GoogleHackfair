@@ -64,6 +64,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.ar.siosi.Hackfair.DaumMapActivity;
 import com.ar.siosi.Hackfair.R;
 import com.ar.siosi.Hackfair.UserProfile;
 import com.ar.siosi.Hackfair.mixare.data.DataHandler;
@@ -350,6 +351,10 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
             mapBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Intent myProfileIntent = new Intent(MixView.this,DaumMapActivity.class);
+                    startActivityForResult(myProfileIntent,54);
+                    Log.i("클릭","맵버튼 클릭");
 
                 }
             });

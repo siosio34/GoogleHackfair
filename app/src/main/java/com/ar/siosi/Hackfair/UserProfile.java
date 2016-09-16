@@ -36,8 +36,6 @@ public class UserProfile extends AppCompatActivity {
         Log.i("google get information",userName);
 
         Picasso.with(this).load(profileURL).into(profileImage);
-
-        //profileImage.setImageURI(profileURL);
         profileName.setText(userName);
 
     }
