@@ -95,17 +95,8 @@ public class GoogleSignInActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_sign_in);
+        Log.i("ㅗㅗ", "ㅗㅗㅗ");
 
-
-        // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
-
-        // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -132,9 +123,10 @@ public class GoogleSignInActivity extends BaseActivity implements
 
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     checkBasicUser(user);
                     splashHandler.sendEmptyMessageDelayed(SPLASH_DELAY_MESSAGE, 1000);
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
 
                 } else {
                     // User is signed out
@@ -145,6 +137,11 @@ public class GoogleSignInActivity extends BaseActivity implements
                 // [END_EXCLUDE]
             }
         };
+
+        setContentView(R.layout.activity_google_sign_in);
+        Log.i("ㅗㅗㅗ", "ㅗㅗㅗ");
+        // Button listeners
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
         // [END auth_state_listener]
     }
 

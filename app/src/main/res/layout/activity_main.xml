@@ -7,27 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ar.siosi.Hackfair.MainActivity"
-    >
+    android:background="@drawable/background"
+    tools:context="com.ar.siosi.Hackfair.MainActivity">
 
 
-    <ImageButton
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
-        android:background="@drawable/google"
-        android:onClick="googleLogin" />
-
-    <!--
-    <ImageButton
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageButton2"
-        android:layout_below="@+id/imageButton"
-        android:layout_alignLeft="@+id/imageButton"
-        android:layout_marginTop="43dp"
-        android:background="@drawable/facebook" />
-    -->
 </RelativeLayout>

@@ -66,7 +66,8 @@ import android.widget.Toast;
 
 import com.ar.siosi.Hackfair.DaumMapActivity;
 import com.ar.siosi.Hackfair.R;
-import com.ar.siosi.Hackfair.UserProfile;
+import com.ar.siosi.Hackfair.UserProfileActivity;
+import com.ar.siosi.Hackfair.WriteDocumentActivity;
 import com.ar.siosi.Hackfair.mixare.data.DataHandler;
 import com.ar.siosi.Hackfair.mixare.data.DataSource;
 import com.ar.siosi.Hackfair.mixare.gui.PaintScreen;
@@ -325,7 +326,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
                 @Override
                 public void onClick(View v) {
 
-                    Intent myProfileIntent = new Intent(MixView.this,UserProfile.class);
+                    Intent myProfileIntent = new Intent(MixView.this,UserProfileActivity.class);
                     startActivityForResult(myProfileIntent,50);
 
                 }
@@ -335,6 +336,9 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
             writeDocumentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent myWriteDocument = new Intent(MixView.this,WriteDocumentActivity.class);
+                    startActivityForResult(myWriteDocument,52);
+                    Log.i("클릭","맵버튼 클릭");
 
                 }
             });

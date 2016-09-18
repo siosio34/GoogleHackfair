@@ -22,6 +22,10 @@ public class User {
 
     public static User currentUser = new User();
 
+    public static User getInstance() {
+        return currentUser;
+    }
+
 
 
     public User() {}
