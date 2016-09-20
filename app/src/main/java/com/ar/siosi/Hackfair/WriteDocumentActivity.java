@@ -35,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.Date;
 
 //Theme.dialog는 AppCombatAcitivity로는 만들지 못함 Activity로 해야함
@@ -68,6 +69,9 @@ public class WriteDocumentActivity extends Activity {
 
     private Uri mDownloadUrl = null;
 
+    Double curlat = 0.0;
+    Double curlon = 0.0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,11 @@ public class WriteDocumentActivity extends Activity {
         videoView.setVisibility(View.GONE);
 
         currentUid = currentUser.getUserId();
+
+        Intent intent = getIntent();
+
+        curlat = intent.getDoubleExtra("lat",0.0);
+        curlon = intent.getDoubleExtra("lon",0.0);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -126,6 +135,7 @@ public class WriteDocumentActivity extends Activity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 WriteDocument(destination);
             }
         });
@@ -188,16 +198,16 @@ public class WriteDocumentActivity extends Activity {
         String content = editText.getText().toString();
         Date currentDate = new Date();
 
-        Document document = new Document(0, uid, content, 0, null, null, 0, 0, 0, 0, 0, 0, 0, currentDate, currentDate, null);
+        // TODO: 2016. 9. 20. 경도 위도도 저장해야함 
+        Document document = new Document(0, uid, content, 0, null, null, 0, 0, 0, 0, 0, 0, 0, currentDate, currentDate, null,curlat,curlon);
         return document;
-
     }
 
     public void uploadNoMultimediaDocument() {
 
         Document document = makeDocument(currentUid);
         document.setContentType(0);
-        myRef.child(currentUid).push().setValue(document);
+        myRef.push().setValue(document);
 
     }
 
@@ -233,7 +243,7 @@ public class WriteDocumentActivity extends Activity {
                         Log.i("문제1","ㅗ");
                         document.setContentUrl(mDownloadUrl.toString());
                         Log.i("문제2","ㅗ");
-                        myRef.child(currentUid).push().setValue(document);
+                        myRef.push().setValue(document);
                         Log.i("문제3","ㅗ");
                         // TODO: 2016. 9. 19. 여기서 url 을 받고 서버에 글 써주거나 아니면 글 아이디를 받아서 거기에 url 값을 업데이트해줘야함
 

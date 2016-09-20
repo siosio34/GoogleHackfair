@@ -48,19 +48,8 @@ public class Json extends DataHandler {
 
         try {
 
-            if(dataformat == DATAFORMAT.SNS)
-                dataArray = root.getJSONArray("list");
-                //네이버 주변정보
-            else if (root.has("result") && root.getJSONObject("result").has("site")) // d연결 가능한 링크를 가졌을시
+            if (root.has("result") && root.getJSONObject("result").has("site")) // d연결 가능한 링크를 가졌을시
                 dataArray = root.getJSONObject("result").getJSONArray("site");
-
-            else { //포켓몬 정보 리스트입니다.
-                dataArray = root.getJSONArray("pocketmons"); // 안되면 ;pocketmon 으로해보기
-                //dataArray = new JSONArray(root.toString()); // 이거 안되면 ㅠㅠ
-            }
-
-          //  else  //네이버 길찾기
-            //    dataArray = root.getJSONObject("result").getJSONArray("route").getJSONObject(0).getJSONArray("point");
 
             Log.i("dataArray값", dataArray.toString());
             // 데이터행렬에 데이터들이 있다면
@@ -83,14 +72,11 @@ public class Json extends DataHandler {
                         case CAFE:
                             ma = processCAFEJSONObject(jo);
                             break;
-                        case Convenience:
-                            ma = processConvenienceJSONObject(jo);
-                            break;
-                        case Restaurant:
-                            ma = processRestaurantJSONObject(jo);
-                            break;
-                        case SNS:
-                            ma = processSNSJSONObject(jo);
+
+                        case DOCUMENT:
+                        case VIDEO:
+                        case IMAGE:
+                            ma = processDocumentObject(jo);
                             break;
 
                     }
@@ -106,95 +92,36 @@ public class Json extends DataHandler {
         return markers;
     }
 
-    public Marker processConvenienceJSONObject(JSONObject jo)  throws JSONException {
+    private Marker processDocumentObject(JSONObject jo) {
         Marker ma = null;
-
-        // 형식에 맞는지 검사. 타이틀과 위도, 경도, 고도 태그를 찾는다
-        if (jo.has("x") && jo.has("y") && jo.has("name")) {
-            Log.v(MixView.TAG, "processing Mixare JSON object");    // 로그 출력
-
-            String linkTemp = null;
-            linkTemp = jo.getString("id");
-            String link = "http://lab.khlug.org/manapie/javap/getRes.php?id=" + linkTemp.substring(1);
-
-            // 할당된 값들로 마커 생성, // 일단은 경도, 위도, 이름만.
-            // 맨뒤에값은 플래그 일단 Flag 0 는 카페정보
-            ma = new SocialMarker(
-                    jo.getString("name"),
-                    jo.getDouble("y"),
-                    jo.getDouble("x"),
-                    0,
-                    link,
-                    DataSource.DATASOURCE.Convenience,"CONVENICE");
-        }
-        return ma;    // 마커 리턴
-    }
-
-    public Marker processRestaurantJSONObject(JSONObject jo) throws JSONException {
-        Marker ma = null;
-
-        // 형식에 맞는지 검사. 타이틀과 위도, 경도, 고도 태그를 찾는다
-        if (jo.has("x") && jo.has("y") && jo.has("name")) {
-
-            String linkTemp = null;
-            linkTemp = jo.getString("id");
-            String link = "http://lab.khlug.org/manapie/javap/getRes.php?id=" + linkTemp.substring(1);
-
-            // 할당된 값들로 마커 생성, // 일단은 경도, 위도, 이름만.
-            // 맨뒤에값은 플래그 일단 Flag 0 는 카페정보
-            ma = new SocialMarker(
-                    jo.getString("name"),
-                    jo.getDouble("y"),
-                    jo.getDouble("x"),
-                    0,
-                    link,
-                    DataSource.DATASOURCE.Restaurant, "RESTRAUNT");
-        }
-        return ma;    // 마커 리턴
-    }
-
-    public Marker processCAFEJSONObject(JSONObject jo)  throws JSONException {
-        Marker ma = null;
-
-        // 형식에 맞는지 검사. 타이틀과 위도, 경도, 고도 태그를 찾는다
-        if (jo.has("x") && jo.has("y") && jo.has("name")) {
-
-            String linkTemp = null;
-            linkTemp = jo.getString("id");
-            String link = ("http://lab.khlug.org/manapie/javap/getRes.php?id=") + (linkTemp.substring(1));
-
-            // 할당된 값들로 마커 생성, // 일단은 경도, 위도, 이름만.
-            // 맨뒤에값은 플래그 일단 Flag 0 는 카페정보
-            ma = new SocialMarker(
-                    jo.getString("name"),
-                    jo.getDouble("y"),
-                    jo.getDouble("x"),
-                    0,
-                    link,
-                    DataSource.DATASOURCE.CAFE, "CAFE");
-        }
-        return ma;    // 마커 리턴
-    }
-
-    public Marker processSNSJSONObject(JSONObject jo) throws JSONException {
-
-        Marker ma = null;
-        String idStr = null;
-        String snsLink = null;
-
-        if(jo.has("longitude") && jo.has("latitude") && jo.has("time")) {
-
-            idStr = jo.getString("id");
-            snsLink = ("http://lab.khlug.org/manapie/javap/message.php?id=" + idStr);
-            ma = new SnsMarker("[발자취] " + jo.getString("name"),Double.parseDouble(jo.getString("latitude")),
-                    Double.parseDouble(jo.getString("longitude")),0,snsLink,DataSource.DATASOURCE.SNS,jo.getString("message"),jo.getString("time"));
-
-        }
 
         return ma;
+
     }
 
 
+    public Marker processCAFEJSONObject(JSONObject jo)  throws JSONException {
+       Marker ma = null;
+
+       // 형식에 맞는지 검사. 타이틀과 위도, 경도, 고도 태그를 찾는다
+       if (jo.has("x") && jo.has("y") && jo.has("name")) {
+
+           String linkTemp = null;
+           linkTemp = jo.getString("id");
+           String link = ("http://lab.khlug.org/manapie/javap/getRes.php?id=") + (linkTemp.substring(1));
+
+           // 할당된 값들로 마커 생성, // 일단은 경도, 위도, 이름만.
+           // 맨뒤에값은 플래그 일단 Flag 0 는 카페정보
+           ma = new SocialMarker(
+                   jo.getString("name"),
+                   jo.getDouble("y"),
+                   jo.getDouble("x"),
+                   0,
+                   link,
+                   DataSource.DATASOURCE.CAFE, "CAFE");
+       }
+       return ma;    // 마커 리턴
+   }
 
 
     // html 엔트리의 해쉬맵

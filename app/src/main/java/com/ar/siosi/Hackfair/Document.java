@@ -5,16 +5,21 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.ar.siosi.Hackfair.mixare.*;
 
 /**
  * Created by joyeongje on 2016. 9. 13..
  */
 public class Document {
 
-    Document() {};
-    Document(int documentId,String userId,String content,int markerType,String state,String contentUrl,
-             int contentType,int popularity,int responseWithme, int responseSeeyou, int responseNotgood,
-             int commentNum,int readNum,Date createDate,Date updateDate,List<Comment> commentList)  {
+    Document() {
+
+    };
+
+
+    Document(int documentId, String userId, String content, int markerType, String state, String contentUrl,
+             int contentType, int popularity, int responseWithme, int responseSeeyou, int responseNotgood,
+             int commentNum, int readNum, Date createDate, Date updateDate, List<Comment> commentList, Double lat, Double lon)  {
 
         this.documentId = documentId;
         this.userId = userId;
@@ -32,6 +37,9 @@ public class Document {
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.commentList = commentList;
+        this.lat = lat;
+        this.lon = lon;
+
     }
 
     private int documentId;
@@ -50,6 +58,8 @@ public class Document {
     private Date createDate; // 작성일
     private Date updateDate; // 수정일
     private List<Comment> commentList = new ArrayList<Comment>();
+    private Double lat;
+    private Double lon;
 
     public int getDocumentId() {
         return documentId;
@@ -178,4 +188,21 @@ public class Document {
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
 }

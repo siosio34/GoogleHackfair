@@ -287,7 +287,7 @@ abstract public class Marker implements Comparable<Marker> {
 		double d = distance;    // 거리. 미터 단위
 		DecimalFormat df = new DecimalFormat("@#");    // 숫자 포맷은 @숫자
 
-		if(datasource != DataSource.DATASOURCE.SNS) {
+		if(datasource != DataSource.DATASOURCE.CAFE) {
 			// 위치에 따른 자신과의 거리 출력. 1000m 이상은 km로 대체한다
 			if (d < 1000.0) {
 				textStr = title + " \n" + df.format(d) + "m";

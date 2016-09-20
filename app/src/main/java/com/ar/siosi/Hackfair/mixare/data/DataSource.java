@@ -33,11 +33,11 @@ public class DataSource {
 
     // 데이터 소스와 데이터 포맷의 열거형 변수
     public enum DATASOURCE {
-        CAFE, Convenience, Restaurant,SNS,POCKETMON
+        CAFE, DOCUMENT, IMAGE, VIDEO
     };
 
     public enum DATAFORMAT {
-        CAFE ,Convenience,Restaurant,SNS,POCKETMON
+        CAFE ,DOCUMENT, IMAGE, VIDEO
     };
 
     // 주의할것! 방대한 양의 데이터(MB단위 이상)을 산출할 때에는, 작은 반경이나 특정한 쿼리만을 사용해야한다
@@ -48,20 +48,9 @@ public class DataSource {
     // 아이콘들. 트위터와 버즈
 
     public static Bitmap cafeIcon;
-    public static Bitmap busIcon;
-    public static Bitmap restraurantIcon;
-    public static Bitmap bankIcon;
-    public static Bitmap convenienceIcon;
-    public static Bitmap routeIcon;
-    public static Bitmap messeage_icon;
-
-    public static Bitmap sns_add;
-
-    public static Bitmap selectPocketIcon[] = new Bitmap[120];
-
-
-    private static final String NAVER_MAP_URL ="http://map.naver.com/findroute2/findWalkRoute.nhn?call=route2&output=json&coord_type=naver&search=0";
-
+    public static Bitmap documentIcon;
+    public static Bitmap imageIcon;
+    public static Bitmap videoIcon;
 
 
     public DataSource() {
@@ -72,25 +61,13 @@ public class DataSource {
     public static void createIcons(Resources res) {
 
         cafeIcon = BitmapFactory.decodeResource(res, R.drawable.icon_cafe);
-        messeage_icon = BitmapFactory.decodeResource(res,R.drawable.sns_2);
-        busIcon = BitmapFactory.decodeResource(res,R.drawable.icon_metro);
-        restraurantIcon = BitmapFactory.decodeResource(res,R.drawable.icon_store);
-        convenienceIcon = BitmapFactory.decodeResource(res,R.drawable.icon_conveni);
-        sns_add = BitmapFactory.decodeResource(res,R.drawable.sns_add);
-        String resName = "@pocket_";
-        String temp="";
-       // selectPocketIcon = new Bitmap[130];
-        for(int i=1; i<30; i++) {
-            temp = resName + i;
-            int resId = res.getIdentifier(temp,"drawable","com.ar.siosi.Hackfair");
-            selectPocketIcon[i] = BitmapFactory.decodeResource(res,resId);
-        }
-    }
+        documentIcon = BitmapFactory.decodeResource(res,R.drawable.icon_conveni);
+        imageIcon = BitmapFactory.decodeResource(res,R.drawable.icon_conveni);
+        videoIcon = BitmapFactory.decodeResource(res,R.drawable.icon_conveni);
+        // TODO: 2016. 9. 20. 이거 채워넣어야됨
 
-    public static Bitmap getPocketBitmap(int code) {
-        return selectPocketIcon[code];
-    }
 
+    }
 
 
     // 아이콘 비트맵의 게터
@@ -101,25 +78,15 @@ public class DataSource {
             case "CAFE":
                 bitmap = cafeIcon;
                 break;
-            case "BUSSTOP":
-                bitmap = busIcon;
+            case "DOCUMENT":
+                bitmap = documentIcon;
                 break;
-            case "CONVENICE":
-                bitmap = convenienceIcon;
+            case "IMAGE":
+                bitmap = imageIcon;
                 break;
-            case "RESTRAUNT":
-                bitmap = restraurantIcon;
+            case "VIDEO":
+                bitmap = videoIcon;
                 break;
-            case "SNS":
-                bitmap = messeage_icon;
-                break;
-            case "SNSADD":
-                bitmap = sns_add;
-                break;
-            case "EVENT": // 이벤트
-                break;
-
-
 
 
         }
@@ -137,23 +104,20 @@ public class DataSource {
                 ret = DATAFORMAT.CAFE;
                 break;
 
-            case Convenience:
-                ret = DATAFORMAT.Convenience;
+            case DOCUMENT:
+                ret = DATAFORMAT.DOCUMENT;
                 break;
 
-            case Restaurant:
-                ret = DATAFORMAT.Restaurant;
+            case IMAGE:
+                ret = DATAFORMAT.IMAGE;
                 break;
 
-            case SNS:
-                ret = DATAFORMAT.SNS;
-                break;
-            case POCKETMON:
-                ret = DATAFORMAT.POCKETMON;
+            case VIDEO:
+                ret = DATAFORMAT.VIDEO;
                 break;
 
             default:
-                ret = DATAFORMAT.SNS;
+                ret = DATAFORMAT.DOCUMENT;
                 break;
 
 
@@ -166,6 +130,8 @@ public class DataSource {
     public static String createRequestURL(DATASOURCE source, double lat, double lon, double alt, float radius, String locale) {
         String ret = "";    // 결과 스트링
 
+        // https://dinosaur-facts.firebaseio.com/
+        // https://dinosaur-facts.firebaseio.com/dinosaurs.json?orderBy="height"&startAt=3&print=pretty
         // 파일로부터 읽는 것이 아니라면
         if (!ret.startsWith("file://")) {
 
@@ -180,32 +146,15 @@ public class DataSource {
                             "%3B" + Double.toString(lat + 0.01) + "&pageSize=100";
                     break;
 
-                case Convenience:
-                    ret = "http://map.naver.com/search2/interestSpot.nhn?type=STORE&boundary=" + Double.toString(lon - 0.02) + "%3B" +
-                            Double.toString(lat - 0.01) + "%3B" + Double.toString(lon + 0.02) +
-                            "%3B" + Double.toString(lat + 0.01) + "&pageSize=100";
+                case DOCUMENT:
+                case IMAGE:
+                case VIDEO:
+                    ret = "https://hackfair-c7518.firebaseio.com/posts.json";
                     break;
 
-                case Restaurant:
-                    ret =  "http://map.naver.com/search2/interestSpot.nhn?type=DINING_KOREAN&boundary=" + Double.toString(lon - 0.02) + "%3B" +
-                            Double.toString(lat - 0.01) + "%3B" + Double.toString(lon + 0.02) +
-                            "%3B" + Double.toString(lat + 0.01) + "&pageSize=100";
+                default:
+                    ret = "https://hackfair-c7518.firebaseio.com/posts.json";
                     break;
-
-                // php 서버
-                case SNS:
-                    ret = "http://lab.khlug.org/manapie/javap/getMessage.php?longitude=" + Double.toString(lon) + "&latitude=" + Double.toString(lat);
-                    break;
-
-                // ruby on rails 서버
-
-                case POCKETMON:
-                    // 이건 전체 포멧몬의 정보를 가져옴:
-                    ret = "http://163.180.117.118:8080/pocketmons.json";
-                    // 내주위에 있는 포켓몬 정보를 가져옴
-                  //  ret = "http://163.180.117.118:3000/findpocket?lat=" + Double.toString(lat) + "&log="+ Double.toString(lon);
-                    break;
-
 
             }
 

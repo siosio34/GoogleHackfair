@@ -77,16 +77,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GoogleSignInActivity"
+        <activity
+            android:name=".GoogleSignInActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".DaumMapActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".WriteDocumentActivity"
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".UserProfileActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".DaumMapActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".WriteDocumentActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:screenOrientation="landscape"></activity>
+            android:theme="@style/Theme.AppCompat.Dialog" />
+
+
+        <activity android:name=".ReadDocumentActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/MyDialogTheme"></activity>
     </application>
 
 </manifest>

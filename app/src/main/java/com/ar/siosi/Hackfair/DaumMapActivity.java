@@ -37,7 +37,6 @@ public class DaumMapActivity extends FragmentActivity
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
 
-
     }
 
     @Override

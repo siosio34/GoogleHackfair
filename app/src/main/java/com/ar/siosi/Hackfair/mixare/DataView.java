@@ -363,9 +363,6 @@ public class DataView {
                 if (!frozen) {
                     float addTemp = 450;
 
-                    if(ma.datasource == DataSource.DATASOURCE.SNS)
-                        addTemp = 300;
-
 
                     //  Log.i("addY값 0_<", String.valueOf(addY));
 

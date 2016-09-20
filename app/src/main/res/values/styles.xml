@@ -46,4 +46,15 @@
         <item name="android:textSize">36sp</item>
     </style>
 
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Dialog">
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+
 </resources>

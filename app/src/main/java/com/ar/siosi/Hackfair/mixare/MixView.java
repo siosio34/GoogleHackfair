@@ -336,7 +336,12 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
             writeDocumentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Location currentGPS = mixContext.getCurrentGPSInfo();
+
                     Intent myWriteDocument = new Intent(MixView.this,WriteDocumentActivity.class);
+                    myWriteDocument.putExtra("lat",currentGPS.getLatitude());
+                    myWriteDocument.putExtra("lon",currentGPS.getLongitude());
                     startActivityForResult(myWriteDocument,52);
                     Log.i("클릭","맵버튼 클릭");
 
@@ -742,10 +747,10 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
                 break;
 		/*zoom level*/
             case 3:
-                Location currentGPSInfo2 = mixContext.getCurrentGPSInfo();
+                Location currentGPS = mixContext.getCurrentGPSInfo();
                 PhysicalPlace physicalPlace = new PhysicalPlace();
-                physicalPlace.setLongitude(currentGPSInfo2.getLongitude());
-                physicalPlace.setLatitude(currentGPSInfo2.getLatitude());
+                physicalPlace.setLongitude(currentGPS.getLongitude());
+                physicalPlace.setLatitude(currentGPS.getLatitude());
                 Intent intent3 = new Intent(MixView.this,HttpPostSNS.class);
                 intent3.putExtra("currentGPSInfo2",physicalPlace);
                 startActivityForResult(intent3, 50);
@@ -762,7 +767,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
                 double lat = curLocate.getLatitude(), lon = curLocate.getLongitude(), alt = curLocate.getAltitude();
                 Log.i("내 경도",Double.toString(lat));
                 Log.i("내 위도",Double.toString(lon));
-                dataView.requestData(DataSource.createRequestURL(DataSource.DATASOURCE.POCKETMON, lat, lon, alt, 20, Locale.getDefault().getLanguage()), DataSource.dataFormatFromDataSource(DataSource.DATASOURCE.POCKETMON), DataSource.DATASOURCE.POCKETMON);
+               // dataView.requestData(DataSource.createRequestURL(DataSource.DATASOURCE.POCKETMON, lat, lon, alt, 20, Locale.getDefault().getLanguage()), DataSource.dataFormatFromDataSource(DataSource.DATASOURCE.POCKETMON), DataSource.DATASOURCE.POCKETMON);
 
                 Toast.makeText(getApplicationContext(),"주변 포켓몬 탐색/생성 시작",Toast.LENGTH_LONG).show();
                 break;

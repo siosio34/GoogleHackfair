@@ -123,10 +123,7 @@ public class MixListView extends ListActivity {
 
 				//dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.BUSSTOP));
 				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.CAFE));
-				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.Convenience));
-				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.Restaurant));
-				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.SNS));
-				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.POCKETMON));
+
 				// 리스트 어댑터를 생성하고 설정
 				adapter = new ListItemAdapter(this);
 				//adapter.colorSource(getDataSource());
@@ -158,14 +155,7 @@ public class MixListView extends ListActivity {
 							Log.i("뿌우우우우우우",tempDataSource.toString());
 							if(tempDataSource == DATASOURCE.CAFE)
 								tagName ="[카페] ";
-							else if(tempDataSource == DATASOURCE.Convenience)
-								tagName ="[편의점] ";
-							else if(tempDataSource == DATASOURCE.Restaurant)
-								tagName ="[식당] ";
-							else if(tempDataSource == DATASOURCE.SNS)
-								tagName ="[SNS] ";
-							else
-								tagName ="[포켓몬] ";
+
 
 							underlinedTitle = new SpannableString("  "+String.valueOf((int) ma.getDistance()) + "m"  + "   |   " + tagName + ma.getTitle());
 
@@ -368,17 +358,10 @@ public class MixListView extends ListActivity {
 				mixContext.toogleDataSource(DATASOURCE.CAFE);
 				break;
 			case 1:
-				mixContext.toogleDataSource(DATASOURCE.Convenience);
+				mixContext.toogleDataSource(DATASOURCE.DOCUMENT);
 				break;
-			case 2:
-				mixContext.toogleDataSource(DATASOURCE.Restaurant);
-				break;
-			case 3:
-				mixContext.toogleDataSource(DATASOURCE.SNS);
-				break;
-			case 4:
-				mixContext.toogleDataSource(DATASOURCE.POCKETMON);
-				break;
+
+
 
 		}
 	}
