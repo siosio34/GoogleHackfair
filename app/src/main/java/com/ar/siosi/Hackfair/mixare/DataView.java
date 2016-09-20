@@ -151,9 +151,6 @@ public class DataView {
     private float dx = 30, dy = 40;
     private float addX = 0, addY = 0;
 
-
-
-
     /**
      * 생성자
      */

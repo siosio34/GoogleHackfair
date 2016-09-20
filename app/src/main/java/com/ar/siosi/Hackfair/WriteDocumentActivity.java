@@ -180,6 +180,7 @@ public class WriteDocumentActivity extends Activity {
 
     public void WriteDocument(File file) { // 새로운 유저 파이어 베이스에 등록
 
+
         int contentType = checkFileType(file);
 
         if(contentType == 0) {
@@ -195,7 +196,9 @@ public class WriteDocumentActivity extends Activity {
 
     public Document makeDocument(String uid) {
 
+        Log.i("ㅇㅇㅇ","아마이게없어서 터지는거같은데");
         String content = editText.getText().toString();
+        Log.i("ㅇㅇㅇ2","아마이게없어서 터지는거같은데");
         Date currentDate = new Date();
 
         // TODO: 2016. 9. 20. 경도 위도도 저장해야함 
@@ -265,8 +268,10 @@ public class WriteDocumentActivity extends Activity {
 
 
     public int checkFileType(File file) {
+        if(file == null) return 0;
 
         String[] extension = file.getName().split("\\.");
+
 
         Log.i("extension",extension[1]);
         if (extension[1].equals("jpg") || extension[1].equals("png")) {

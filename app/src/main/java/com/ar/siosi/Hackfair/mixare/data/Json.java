@@ -23,15 +23,25 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.ar.siosi.Hackfair.Comment;
+import com.ar.siosi.Hackfair.mixare.DocumentMarker;
 import com.ar.siosi.Hackfair.mixare.Marker;
 import com.ar.siosi.Hackfair.mixare.MixView;
 import com.ar.siosi.Hackfair.mixare.SnsMarker;
 import com.ar.siosi.Hackfair.mixare.SocialMarker;
 import com.ar.siosi.Hackfair.mixare.data.DataSource.DATAFORMAT;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 
 // JSON 파일을 다루는 클래스
 public class Json extends DataHandler {
@@ -46,12 +56,31 @@ public class Json extends DataHandler {
         List<Marker> markers = new ArrayList<Marker>();
 
 
+
         try {
+
 
             if (root.has("result") && root.getJSONObject("result").has("site")) // d연결 가능한 링크를 가졌을시
                 dataArray = root.getJSONObject("result").getJSONArray("site");
+            else {
+                String jsonArr = "[";
+                Iterator iterator = root.keys();
+                while(iterator.hasNext()) {
+                    String key = (String)iterator.next();
+                    JSONObject data = root.getJSONObject(key);
+                    jsonArr+=data.toString();
+                    jsonArr+=",";
+                }
+                jsonArr = jsonArr.substring(0, jsonArr.length()-1)+"]";
 
-            Log.i("dataArray값", dataArray.toString());
+                Log.i("요데이터", jsonArr.toString());
+
+                dataArray = new JSONArray(jsonArr.toString());
+                Log.i("요데이터2", dataArray.toString());
+                if(dataArray != null)
+                    Log.i("요데이터3", dataArray.toString());
+            }
+            //Log.i("dataArray값", dataArray.toString());
             // 데이터행렬에 데이터들이 있다면
             if (dataArray != null) {
                 // 일단 로그 생성. 데이터 포맷을 기록한다
@@ -92,8 +121,51 @@ public class Json extends DataHandler {
         return markers;
     }
 
-    private Marker processDocumentObject(JSONObject jo) {
+
+    private Marker processDocumentObject(JSONObject jo) throws JSONException {
+
         Marker ma = null;
+        int contentType = jo.getInt("contentType");
+        DataSource.DATASOURCE thisDatasource = DataSource.DATASOURCE.DOCUMENT;
+
+        long documentCreateDate = jo.getJSONObject("createDate").getLong("time");
+        Date createdate = new java.util.Date( documentCreateDate );
+        long documentEditDate = jo.getJSONObject("updateDate").getLong("time");
+        Date editDdate = new java.util.Date( documentEditDate );
+
+        String contentUrl = null;
+        List<Comment> comments = new ArrayList<Comment>();
+
+        if(contentType == 1)
+            thisDatasource = DataSource.DATASOURCE.IMAGE;
+
+        else if(contentType == 2)
+            thisDatasource = DataSource.DATASOURCE.VIDEO;
+
+        if(jo.has("contentUrl"))
+            contentUrl = jo.getString("contentUrl");
+
+        if(jo.has("commentList")) {
+            JSONArray commentArray = jo.getJSONArray("commentList");
+            for(int i = 0 ; i < commentArray.length(); i++) {
+                //Comment commentTemp = (Comment)commentArray.get(i).getClass();
+                //Log.i("댓글 리스트",commentTemp.toString());
+                //comments.add(commentTemp);
+                // TODO: 2016. 9. 21. 여기 댓글다는것도 구현해야함
+
+            }
+        }
+
+        // TODO: 2016. 9. 21.
+        // contenturl 걍 글인 경우
+        // 댓글이 있는 경우 없는경우
+
+        ma = new DocumentMarker(jo.getString("content"),jo.getDouble("lat"),jo.getDouble("lon"),0,contentUrl,thisDatasource,contentType,
+                jo.getInt("popularity"),jo.getInt("responseWithme"),jo.getInt("responseSeeyou"),jo.getInt("responseNotgood"),jo.getInt("commentNum"),jo.getInt("readNum"),createdate,
+                editDdate,comments);
+
+
+        Log.i("정보",ma.toString());
 
         return ma;
 

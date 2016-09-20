@@ -704,10 +704,6 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
 		/*define the first*/
         MenuItem item1 =menu.add(base, base, base, getString(DataView.MENU_ITEM_1));
         MenuItem item2 =menu.add(base, base+1, base+1,  getString(DataView.MENU_ITEM_2));
-        MenuItem item3 =menu.add(base, base+2, base+2,  getString(DataView.MENU_ITEM_4));
-        MenuItem itme4 = menu.add(base, base+3, base+3, getString(DataView.MENU_ITEM_5));
-
-
 
         return true;
     }

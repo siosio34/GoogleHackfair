@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent arIntent = new Intent(MainActivity.this,ReadDocumentActivity.class);
+        Intent arIntent = new Intent(MainActivity.this,GoogleSignInActivity.class);
         startActivity(arIntent);
     }
 }

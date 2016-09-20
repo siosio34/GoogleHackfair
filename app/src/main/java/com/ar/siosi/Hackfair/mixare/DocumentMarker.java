@@ -27,14 +27,24 @@ public class DocumentMarker extends Marker {
     private int documentReadNum;
     private Date documentCreateDate;
     private Date documentUpdateDate;
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<Comment>();
 
-    public DocumentMarker(String title, double latitude, double longitude, double altitude, String link, DataSource.DATASOURCE datasource,int documentType,int documentPopularity) {
+    public DocumentMarker(String title, double latitude, double longitude, double altitude, String link, DataSource.DATASOURCE datasource,int documentType,int documentPopularity,
+                          int documentResponseWithme, int documentResponseSeeyou, int documentResponseNotgood, int documentCommentNum, int documentReadNum,
+                          Date documentCreateDate,Date documentUpdateDate,List<Comment> commentList)
+
+    {
         super(title, latitude, longitude, altitude, link, datasource);
-
-
-
-
+        this.documentType = documentType;
+        this.documentPopularity = documentPopularity;
+        this.documentResponseWithme = documentResponseWithme;
+        this.documentResponseSeeyou = documentResponseSeeyou;
+        this.documentResponseNotgood = documentResponseNotgood;
+        this.documentCommentNum = documentCommentNum;
+        this.documentReadNum = documentReadNum;
+        this.documentCreateDate = documentCreateDate;
+        this.documentUpdateDate = documentUpdateDate;
+        this.commentList = commentList;
     }
 
     // 마커 갱신
@@ -68,7 +78,6 @@ public class DocumentMarker extends Marker {
 
             else if(documentType == 2)
                 markerFlag = "VIDEO";
-
 
             Bitmap bitmap = DataSource.getBitmap(markerFlag);
 

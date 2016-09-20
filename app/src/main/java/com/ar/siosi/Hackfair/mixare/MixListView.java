@@ -112,17 +112,14 @@ public class MixListView extends ListActivity {
 
 				//dataSourceMenu.add("버스 정류장");
 				dataSourceMenu.add("카페");
-				dataSourceMenu.add("편의점");
-				dataSourceMenu.add("식당");
-				dataSourceMenu.add("남긴 글");
-
-				dataSourceMenu.add("포켓몬");
+				dataSourceMenu.add("도큐먼트");
 
 				// 각 항목의 체크여부를 등록
 				dataSourceChecked = new Vector<Boolean>();
 
 				//dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.BUSSTOP));
 				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.CAFE));
+				dataSourceChecked.add(mixContext.isDataSourceSelected(DATASOURCE.DOCUMENT));
 
 				// 리스트 어댑터를 생성하고 설정
 				adapter = new ListItemAdapter(this);
@@ -155,7 +152,6 @@ public class MixListView extends ListActivity {
 							Log.i("뿌우우우우우우",tempDataSource.toString());
 							if(tempDataSource == DATASOURCE.CAFE)
 								tagName ="[카페] ";
-
 
 							underlinedTitle = new SpannableString("  "+String.valueOf((int) ma.getDistance()) + "m"  + "   |   " + tagName + ma.getTitle());
 
