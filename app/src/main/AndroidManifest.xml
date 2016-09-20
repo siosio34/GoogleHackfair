@@ -80,7 +80,7 @@
         <activity android:name=".GoogleSignInActivity"
             android:screenOrientation="landscape"
             />
-        <activity android:name=".UserProfile"
+        <activity android:name=".UserProfileActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".DaumMapActivity"
             android:screenOrientation="landscape"/>

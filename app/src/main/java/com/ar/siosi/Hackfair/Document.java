@@ -1,5 +1,7 @@
 package com.ar.siosi.Hackfair;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,22 @@ public class Document {
              int contentType,int popularity,int responseWithme, int responseSeeyou, int responseNotgood,
              int commentNum,int readNum,Date createDate,Date updateDate,List<Comment> commentList)  {
 
+        this.documentId = documentId;
+        this.userId = userId;
+        this.content = content;
+        this.markerType = markerType;
+        this.state = state;
+        this.contentUrl = contentUrl;
+        this.contentType = contentType;
+        this.popularity = popularity;
+        this.responseWithme = responseWithme;
+        this.responseSeeyou = responseSeeyou;
+        this.responseNotgood = responseNotgood;
+        this.commentNum = commentNum;
+        this.readNum = readNum;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.commentList = commentList;
     }
 
     private int documentId;
