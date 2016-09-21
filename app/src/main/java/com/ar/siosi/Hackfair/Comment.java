@@ -1,11 +1,12 @@
 package com.ar.siosi.Hackfair;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by joyeongje on 2016. 9. 13..
  */
-public class Comment {
+public class Comment implements Serializable {
 
     private int commentId;
     private int documentId;

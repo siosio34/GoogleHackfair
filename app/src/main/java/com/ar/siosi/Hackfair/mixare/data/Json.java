@@ -28,20 +28,14 @@ import com.ar.siosi.Hackfair.Comment;
 import com.ar.siosi.Hackfair.mixare.DocumentMarker;
 import com.ar.siosi.Hackfair.mixare.Marker;
 import com.ar.siosi.Hackfair.mixare.MixView;
-import com.ar.siosi.Hackfair.mixare.SnsMarker;
 import com.ar.siosi.Hackfair.mixare.SocialMarker;
 import com.ar.siosi.Hackfair.mixare.data.DataSource.DATAFORMAT;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
 
 // JSON 파일을 다루는 클래스
 public class Json extends DataHandler {
@@ -164,6 +158,8 @@ public class Json extends DataHandler {
                 jo.getInt("popularity"),jo.getInt("responseWithme"),jo.getInt("responseSeeyou"),jo.getInt("responseNotgood"),jo.getInt("commentNum"),jo.getInt("readNum"),createdate,
                 editDdate,comments);
 
+        // TODO: 2016. 9. 21. 글 아이디 및 유저 아이디도 추가를 해야겟네.
+        // TODO: 2016. 9. 21. 아아 테스트를 하고 싶다  
 
         Log.i("정보",ma.toString());
 

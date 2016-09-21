@@ -741,16 +741,7 @@ public class MixView extends Activity implements SensorEventListener,LocationLis
                     Toast.makeText(this, DataView.EMPTY_LIST_STRING_ID, Toast.LENGTH_LONG).show();
                 }
                 break;
-		/*zoom level*/
-            case 3:
-                Location currentGPS = mixContext.getCurrentGPSInfo();
-                PhysicalPlace physicalPlace = new PhysicalPlace();
-                physicalPlace.setLongitude(currentGPS.getLongitude());
-                physicalPlace.setLatitude(currentGPS.getLatitude());
-                Intent intent3 = new Intent(MixView.this,HttpPostSNS.class);
-                intent3.putExtra("currentGPSInfo2",physicalPlace);
-                startActivityForResult(intent3, 50);
-                break;
+
 
             case 4: // 포켓몬 ㄱㄱ하는게 떠야됨.
                 if(dataView.isFrozen())

@@ -458,7 +458,6 @@ public class DataView {
         if (state.nextLStatus
                 == MixState.DONE) {    // 다음상태가 완료일 때(다운로드 완료)
 
-            // 다음은 거리에 따라 오름차순으로 정렬된 마커들에 차례로 적용될 것이다.
             // 일치하는 첫 번째 마커가 이벤트를 작동할 것이다
             for (int i = 0; i < dataHandler.getMarkerCount() && !evtHandled; i++) {
                 Marker pm = dataHandler.getMarker(i);
@@ -466,6 +465,7 @@ public class DataView {
                 // TODO: 2016. 9. 9. 마커에 대한 클리이벤트 처리한거 화면에 버튼띄울거면 이런식으로 이벤트처리를 해줘야될듯 
                 // 클릭 이벤트 처리를 시도한다. Marker, MixState 를 참고
                 evtHandled = pm.fClick(evt.x, evt.y, mixContext, state);
+
             }
         }
         return evtHandled;    // 성공했을 경우 true 를 리턴

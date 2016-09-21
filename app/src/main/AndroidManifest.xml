@@ -36,9 +36,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".mixare.HttpPostSNS"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".mixare.MixView"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">

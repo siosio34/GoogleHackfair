@@ -1,12 +1,17 @@
 package com.ar.siosi.Hackfair.mixare;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.util.Log;
 
 import com.ar.siosi.Hackfair.Comment;
+import com.ar.siosi.Hackfair.Document;
+import com.ar.siosi.Hackfair.ReadDocumentActivity;
 import com.ar.siosi.Hackfair.mixare.data.DataSource;
 import com.ar.siosi.Hackfair.mixare.gui.PaintScreen;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,10 +19,17 @@ import java.util.List;
 /**
  * Created by joyeongje on 2016. 9. 20..
  */
-public class DocumentMarker extends Marker {
+public class DocumentMarker extends Marker implements Serializable {
 
 
+    public static DocumentMarker selectedMarker = new DocumentMarker();
+    public static DocumentMarker getInstance() {
+        return selectedMarker;
+    }
     public static final int MAX_OBJECTS=50;
+
+    private int id;
+    private String uid;
     private int documentType;
     private int documentPopularity;
     private int documentResponseWithme;
@@ -29,12 +41,18 @@ public class DocumentMarker extends Marker {
     private Date documentUpdateDate;
     private List<Comment> commentList = new ArrayList<Comment>();
 
+    public DocumentMarker() {
+        super();
+    };
+
     public DocumentMarker(String title, double latitude, double longitude, double altitude, String link, DataSource.DATASOURCE datasource,int documentType,int documentPopularity,
                           int documentResponseWithme, int documentResponseSeeyou, int documentResponseNotgood, int documentCommentNum, int documentReadNum,
                           Date documentCreateDate,Date documentUpdateDate,List<Comment> commentList)
 
     {
         super(title, latitude, longitude, altitude, link, datasource);
+       // this.id = documentId;
+       // this.uid = userId;
         this.documentType = documentType;
         this.documentPopularity = documentPopularity;
         this.documentResponseWithme = documentResponseWithme;
@@ -92,6 +110,21 @@ public class DocumentMarker extends Marker {
                 dw.paintCircle(cMarker.x, cMarker.y, maxHeight / 1.5f);
             }
         }
+    }
+
+    @Override
+    public boolean fClick(float x, float y, MixContext ctx, MixState state) {
+
+        boolean evtHandled = false;
+
+        if (isClickValid(x, y)) {    // 클릭 가능한 지점인 경우(클릭된 걸로 파악된 경우)
+
+             // 클릭 가능한 지점인 경우(클릭된 걸로 파악된 경우)
+                evtHandled = state.handleEvent2(ctx,this);	// 마커의 URL 을 넘겨 이벤트 처리
+            // TODO: 2016. 9. 21. 여기서 도큐먼트 객체를 생성해주어야하나 ?
+        }
+        return evtHandled;    // 성공했을 경우 true 를 리턴할 것이다
+
     }
 
     @Override
@@ -177,5 +210,21 @@ public class DocumentMarker extends Marker {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

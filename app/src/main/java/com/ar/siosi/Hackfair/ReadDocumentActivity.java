@@ -2,6 +2,7 @@ package com.ar.siosi.Hackfair;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -29,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.ar.siosi.Hackfair.mixare.DocumentMarker;
 
 /**
  * Created by Mansu on 2016-09-18.
@@ -61,6 +65,8 @@ public class ReadDocumentActivity extends Activity {
 
     Bitmap testIcon = null;
     Drawable testDrawble = null;
+
+    DocumentMarker documentMarker = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +160,10 @@ public class ReadDocumentActivity extends Activity {
         LinearLayout commentLayout = (LinearLayout)findViewById(R.id.commentLayout);
         for(int i=0; i<10; i++)
             commentLayout.addView(createCommentLayout(testIcon, "조영제", "10분 전", "datatatatatata"));
+
+        documentMarker = DocumentMarker.getInstance();
+
+
     }
 
     public RelativeLayout createCommentLayout(Bitmap profileImg, String name, String time, String comment) {

@@ -12,15 +12,13 @@ import com.ar.siosi.Hackfair.mixare.*;
  */
 public class Document {
 
-    Document() {
+    public Document() {
 
-    };
+    }
 
-
-    Document(int documentId, String userId, String content, int markerType, String state, String contentUrl,
+    public Document(int documentId, String userId, String content, int markerType, String state, String contentUrl,
              int contentType, int popularity, int responseWithme, int responseSeeyou, int responseNotgood,
              int commentNum, int readNum, Date createDate, Date updateDate, List<Comment> commentList, Double lat, Double lon)  {
-
         this.documentId = documentId;
         this.userId = userId;
         this.content = content;
@@ -39,7 +37,6 @@ public class Document {
         this.commentList = commentList;
         this.lat = lat;
         this.lon = lon;
-
     }
 
     private int documentId;

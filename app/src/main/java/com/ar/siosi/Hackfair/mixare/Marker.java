@@ -29,6 +29,7 @@ import com.ar.siosi.Hackfair.mixare.reality.PhysicalPlace;
 import com.ar.siosi.Hackfair.mixare.render.Camera;
 import com.ar.siosi.Hackfair.mixare.render.MixVector;
 
+import java.io.Serializable;
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
 
@@ -78,9 +79,7 @@ abstract public class Marker implements Comparable<Marker> {
 		this.title = title;
 		this.mGeoLoc = new PhysicalPlace(latitude, longitude, altitude);
 		if (link != null && link.length() > 0) {
-			// 링크가 null 이 아닐 경우, 웹페이지의 형태의 링크를 추가하고 
 			URL = "webpage:" + URLDecoder.decode(link);
-			this.underline = false;    // 밑줄을 친다
 		}
 		this.datasource = datasource;
 
@@ -88,12 +87,15 @@ abstract public class Marker implements Comparable<Marker> {
 		this.ID = datasource + "##" + title; //mGeoLoc.toString();
 	}
 
+	public Marker() {
+
+	}
+
 	// 타이틀을 리턴
 	public String getTitle() {
 		return title;
 	}
 
-	//
 	// URL을 리턴/
 	public String getURL() {
 		return URL;
@@ -177,15 +179,7 @@ abstract public class Marker implements Comparable<Marker> {
 			if (MixUtils.pointInside(cMarker.x, cMarker.y, 0, 0,
 					viewCam.width, viewCam.height)) {
 
-//				float xDist = cMarker.x - viewCam.width / 2;
-//				float yDist = cMarker.y - viewCam.height / 2;
-//				float dist = xDist * xDist + yDist * yDist;
 
-//				deltaCenter = (float) Math.sqrt(dist);
-//
-//				if (dist < 50 * 50) {
-//					isLookingAt = true;
-//				}
 			}
 		}
 	}
@@ -218,7 +212,7 @@ abstract public class Marker implements Comparable<Marker> {
 //	}
 
 	// 클릭이 허용되어 있는지 조사
-	private boolean isClickValid(float x, float y) {
+	public boolean isClickValid(float x, float y) {
 		// 현재각. 카메라 마커의 좌표와 기호 마커의 좌표 사이의 각을 구한다 
 		float currentAngle = MixUtils.getAngle(cMarker.x, cMarker.y,
 				signMarker.x, signMarker.y);
@@ -338,11 +332,7 @@ abstract public class Marker implements Comparable<Marker> {
 		boolean evtHandled = false;
 
 		if (isClickValid(x, y)) {    // 클릭 가능한 지점인 경우(클릭된 걸로 파악된 경우)
-
-			// TODO: 2016. 9. 9. 클릭 가능한 버튼을 만들고 그거마다 이벤트 다르게 할려면 삽질이 필요해보임
-			// TODO: 2016. 9. 9. 마커를 클릭해야 동작하는 함수
 			evtHandled = state.handleEvent(ctx, URL, title, mGeoLoc);	// 마커의 URL 을 넘겨 이벤트 처리
-			
 		}
 		return evtHandled;    // 성공했을 경우 true 를 리턴할 것이다
 	}
@@ -396,7 +386,6 @@ abstract public class Marker implements Comparable<Marker> {
 
 	// 아직 미사용
 	abstract public int getMaxObjects();
-
 
 	// 스크린에 출력될 라벨 클래스
 	class Label implements ScreenObj {

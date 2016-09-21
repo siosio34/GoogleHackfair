@@ -20,8 +20,11 @@ package com.ar.siosi.Hackfair.mixare;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.ar.siosi.Hackfair.ReadDocumentActivity;
 import com.ar.siosi.Hackfair.mixare.reality.PhysicalPlace;
 import com.ar.siosi.Hackfair.mixare.render.Matrix;
 import com.ar.siosi.Hackfair.mixare.render.MixVector;
@@ -48,9 +51,29 @@ public class MixState {
 
         // TODO: 2016. 9. 9. 여기에 진행할 이벤트 만들면 될듯함 현재는 다이얼로그 클릭이벤트 받는거 확인하기 위해서 다이얼로그 그대로 띄울고 나중에 삭제 예정
 
-        DialogSelectOption(ctx, title, log, onPress);
+
+        //DialogSelectOption(ctx, title, log, onPress);
         return true;
     }
+
+    // 이벤트 처리
+    public boolean handleEvent2(MixContext ctx, DocumentMarker documentMarker) {
+
+        // TODO: 2016. 9. 9. 여기에 진행할 이벤트 만들면 될듯함 현재는 다이얼로그 클릭이벤트 받는거 확인하기 위해서 다이얼로그 그대로 띄울고 나중에 삭제 예정
+
+
+        boolean evtHandled= false;
+        Intent readDocumentIntent = new Intent(ctx, ReadDocumentActivity.class);
+        DocumentMarker.selectedMarker = documentMarker;
+        ctx.startActivity(readDocumentIntent);
+
+        evtHandled = true;
+
+        //DialogSelectOption(ctx, title, log, onPress);
+        return evtHandled;
+    }
+
+
 
     public void DialogSelectOption(final MixContext ctx, final String markerTitle, final PhysicalPlace log, final String onPress) {
         // TODO: 2016. 9. 9. 마커를 클릭했을대 이벤트를 정의해야된다

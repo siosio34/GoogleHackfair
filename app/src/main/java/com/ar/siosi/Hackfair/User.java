@@ -26,8 +26,6 @@ public class User {
         return currentUser;
     }
 
-
-
     public User() {}
     public User(String userId,String userName,String userEmail,String userDescription,String imageUri,
                 int folloingNumber,int followerNumber,List<String> haveFollowingList,List<String> haveFollowerList) {
