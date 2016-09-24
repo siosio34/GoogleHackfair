@@ -26,6 +26,7 @@ public class DocumentMarker extends Marker implements Serializable {
     public static DocumentMarker getInstance() {
         return selectedMarker;
     }
+
     public static final int MAX_OBJECTS=50;
 
     private int id;
@@ -45,14 +46,14 @@ public class DocumentMarker extends Marker implements Serializable {
         super();
     };
 
-    public DocumentMarker(String title, double latitude, double longitude, double altitude, String link, DataSource.DATASOURCE datasource,int documentType,int documentPopularity,
+    public DocumentMarker(String title, double latitude, double longitude, double altitude, String link, DataSource.DATASOURCE datasource,int documentId,String userId,int documentType,int documentPopularity,
                           int documentResponseWithme, int documentResponseSeeyou, int documentResponseNotgood, int documentCommentNum, int documentReadNum,
                           Date documentCreateDate,Date documentUpdateDate,List<Comment> commentList)
 
     {
         super(title, latitude, longitude, altitude, link, datasource);
-       // this.id = documentId;
-       // this.uid = userId;
+        this.id = documentId;
+        this.uid = userId;
         this.documentType = documentType;
         this.documentPopularity = documentPopularity;
         this.documentResponseWithme = documentResponseWithme;
@@ -226,5 +227,24 @@ public class DocumentMarker extends Marker implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getDateString() {
+        long timeDiff = System.currentTimeMillis() - this.documentCreateDate.getTime();
+
+        if(timeDiff < 1000)
+            return "1분 전";
+        else if(timeDiff < 1000*60)
+            return (timeDiff/1000)+"분 전";
+        else if(timeDiff < 1000*60*24)
+            return (timeDiff/1000*60)+"시간 전";
+        else if(timeDiff < 1000*60*24*30)
+            return (timeDiff/1000*60*24)+"일 전";
+        else if(timeDiff < 1000*60*24*30*12)
+            return (timeDiff/1000*60*24*30)+"달 전";
+        else if(timeDiff >= 1000*60*24*30*12)
+            return (timeDiff/1000*60*24*30*12)+"년 전";
+        else
+            return "";
     }
 }

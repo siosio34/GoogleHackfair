@@ -11,12 +11,27 @@ public class Comment implements Serializable {
     private int commentId;
     private int documentId;
     private String userId;
-    private int content;
+    private String userName;
+    private String userImageUrl;
+    private String content;
     private Date createDate;
     private int state;
 
-    Comment() {
 
+    public Comment() {
+
+    }
+
+    public Comment(int commentId,int documentId,String userId, String userName,String userImageUrl,String content, Date createDate,int state)
+    {
+        this.commentId = commentId;
+        this.documentId = documentId;
+        this.userId = userId;
+        this.userName = userName;
+        this.userImageUrl = userImageUrl;
+        this.content = content;
+        this.createDate = createDate;
+        this.state = state;
     }
 
     public int getCommentId() {
@@ -43,11 +58,11 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
-    public int getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(int content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
@@ -65,5 +80,22 @@ public class Comment implements Serializable {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+
+    public String getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public void setUserImageUrl(String userImageUrl) {
+        this.userImageUrl = userImageUrl;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

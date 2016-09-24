@@ -16,6 +16,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -23,16 +25,31 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.ar.siosi.Hackfair.mixare.DocumentMarker;
+import com.ar.siosi.Hackfair.mixare.data.DataHandler;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Mansu on 2016-09-18.
@@ -41,19 +58,18 @@ public class ReadDocumentActivity extends Activity {
     private LinearLayout document = null;
     private double popupWindowRatio = 0.8;
     private int circleSize = 128;
-    private int circleBorder = 2;
     private int myProfileTextMarginLeft = 10;
     private int myProfileTextMarginTop = 10;
     private int myNameSize = 16;
     private int myIntroMarginBottom = 10;
     private int myIntroSize = 10;
     private int documentLeftScrollMarginTop = 10;
-    private int check = 2;
+
+    private DatabaseReference mCommentsReference;
 
     //comment
     private int commentLayoutPadding = 16;
     private int commentCircleSize = 64;
-    private int commentBorder = 2;
     private int commentNameSize = 12;
     private int commentTimeSize = 12;
     private int commentSize = 16;
@@ -63,49 +79,80 @@ public class ReadDocumentActivity extends Activity {
     private int commentTimeMarginRight = 10;
     private int commentTimeMarginTop = 10;
 
-    Bitmap testIcon = null;
-    Drawable testDrawble = null;
-
     DocumentMarker documentMarker = null;
+    EditText editText;
+    User user = null;
+
+    Point displaySize;
+    LinearLayout commentLayout;
+    public void initialize() {
+        user = User.getInstance();
+        documentMarker = DocumentMarker.getInstance();
+        Log.i("선택된 마커",documentMarker.getUid());
+
+        editText = (EditText)findViewById(R.id.comment);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        displaySize = new Point();
+        display.getSize(displaySize);
+        getWindow().getAttributes().width = displaySize.x;
+        getWindow().getAttributes().height = displaySize.y;
+
+        popupWindowRatio = 0.8;
+        circleSize = displaySize.x/10;
+        myProfileTextMarginLeft = displaySize.x/128;
+        myProfileTextMarginTop = displaySize.x/128;
+        //myNameSize = displaySize.x/80;
+        myIntroMarginBottom = displaySize.x/128;
+        //myIntroSize = displaySize.x/128;
+        documentLeftScrollMarginTop = displaySize.x/128;
+
+        //comment
+        commentLayoutPadding = displaySize.x/80;
+        commentCircleSize = displaySize.x/20;
+        //commentNameSize = 12;
+        //commentTimeSize = 12;
+        //commentSize = 16;
+        commentPadding = displaySize.x/128;
+        commentNameMarginLeft = displaySize.x/128;
+        commentNameMarginTop = displaySize.x/128;
+        commentTimeMarginRight = displaySize.x/128;
+        commentTimeMarginTop = displaySize.x/128;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_read_document);
         RelativeLayout topLayer = (RelativeLayout)findViewById(R.id.readDocumentTopLayer);
 
-        testIcon = BitmapFactory.decodeResource(getResources(), R.drawable.busicon);
-        testDrawble = new BitmapDrawable(getCircularBitmapWithWhiteBorder(testIcon, circleSize, circleSize, circleBorder));
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        getWindow().getAttributes().width = size.x;
-        getWindow().getAttributes().height = size.y;
+        initialize();
 
         document = (LinearLayout)findViewById(R.id.documentTopLayer);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)(size.x*popupWindowRatio), (int)(size.y*popupWindowRatio));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int)(displaySize.x*popupWindowRatio), (int)(displaySize.y*popupWindowRatio));
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         document.setLayoutParams(params);
 
         ImageView myLocation = new ImageView(this);
-        myLocation.setBackground(testDrawble);
+        Picasso.with(this).load(user.getImageUri()).into(myLocation);
         RelativeLayout.LayoutParams myLocationParams = new RelativeLayout.LayoutParams(circleSize, circleSize);
-        myLocationParams.setMargins((int)((size.x*(1-popupWindowRatio)))/2-circleSize/2, (int)(size.y*(1-popupWindowRatio))/2-circleSize/2, 0, 0);
+        myLocationParams.setMargins((int)((displaySize.x*(1-popupWindowRatio)))/2-circleSize/2, (int)(displaySize.y*(1-popupWindowRatio))/2-circleSize/2, 0, 0);
         myLocation.setLayoutParams(myLocationParams);
         topLayer.addView(myLocation);
 
         ImageView mark = new ImageView(this);
-        mark.setBackground(testDrawble);
+        Picasso.with(this).load(user.getImageUri()).into(mark);
         RelativeLayout.LayoutParams markParams = new RelativeLayout.LayoutParams(circleSize, circleSize);
-        markParams.setMargins((int)(size.x*(1-popupWindowRatio))/2-circleSize/2, (int)(size.y*(1-popupWindowRatio))/2-circleSize/2, 0, 0);
+        markParams.setMargins((int)(displaySize.x*(1-popupWindowRatio))/2-circleSize/2, (int)(displaySize.y*(1-popupWindowRatio))/2-circleSize/2, 0, 0);
         mark.setLayoutParams(markParams);
         topLayer.addView(mark);
 
         ImageView myPic = new ImageView(this);
-        myPic.setBackground(testDrawble);
+        Picasso.with(this).load(user.getImageUri()).into(myPic);
         RelativeLayout.LayoutParams myPicParams = new RelativeLayout.LayoutParams(circleSize, circleSize);
-        myPicParams.setMargins((int)(size.x*(1-popupWindowRatio))/2, (int)(size.y*(1-popupWindowRatio))/2, 0, 0);
+        myPicParams.setMargins((int)(displaySize.x*(1-popupWindowRatio))/2, (int)(displaySize.y*(1-popupWindowRatio))/2, 0, 0);
         myPic.setLayoutParams(myPicParams);
         topLayer.addView(myPic);
 
@@ -118,7 +165,7 @@ public class ReadDocumentActivity extends Activity {
         LinearLayout.LayoutParams myIntroParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         myIntroParams.setMargins(0, 0, 0, myIntroMarginBottom);
         myIntro.setLayoutParams(myIntroParams);
-        myIntro.setText("난 바보다");
+        myIntro.setText(user.getUserName());
         myIntro.setTextColor(0x40000000);
         myIntro.setTextSize(myIntroSize);
         myProfileText.addView(myIntro);
@@ -126,7 +173,7 @@ public class ReadDocumentActivity extends Activity {
         TextView myName = new TextView(this);
         LinearLayout.LayoutParams myNameParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         myName.setLayoutParams(myNameParams);
-        myName.setText("조영제");
+        myName.setText(user.getUserName());
         myName.setTypeface(Typeface.DEFAULT_BOLD);
         myName.setTextColor(Color.BLACK);
         myName.setTextSize(myNameSize);
@@ -138,35 +185,104 @@ public class ReadDocumentActivity extends Activity {
         documentLeftScroll.setLayoutParams(scrollParams);
 
         LinearLayout documentLeft = (LinearLayout)findViewById(R.id.documentLeft);
-        if(check == 0) {
+        if(documentMarker.getDocumentType() == 1) {
             //picture
             ImageView documentPic = new ImageView(this);
+            Picasso.with(this).load(documentMarker.getURL()).into(documentPic);
             //documentPic.setBackground(new Drawable(bitmap));
             documentLeft.addView(documentPic);
         }
-        else if(check == 1) {
+        else if(documentMarker.getDocumentType() == 2) {
             //camera
-            VideoView documentVideo = new VideoView(this);
-            //documentVideo.setVideoURI();
-            documentLeft.addView(documentVideo);
+            Log.i("urlurlvideo", documentMarker.getURL());
+            final VideoView videoView = new VideoView(this);
+            videoView.setVideoURI(Uri.parse(documentMarker.getURL()));
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    MediaController mc = new MediaController(ReadDocumentActivity.this);
+                    videoView.setMediaController(mc);
+                    mc.setAnchorView(videoView);
+                }
+            });
+            documentLeft.addView(videoView);
         }
 
         TextView documentText = new TextView(this);
-        String data = "asdad";
-        documentText.setText(data);
+        documentText.setText(documentMarker.getTitle());
         documentText.setGravity(Gravity.TOP | Gravity.LEFT);
         documentText.setTextColor(Color.BLACK);
         documentLeft.addView(documentText);
-        LinearLayout commentLayout = (LinearLayout)findViewById(R.id.commentLayout);
-        for(int i=0; i<10; i++)
-            commentLayout.addView(createCommentLayout(testIcon, "조영제", "10분 전", "datatatatatata"));
+        commentLayout = (LinearLayout)findViewById(R.id.commentLayout);
 
-        documentMarker = DocumentMarker.getInstance();
+        TextView commentNumTextView = (TextView)findViewById(R.id.commentNum);
+        commentNumTextView.setText(documentMarker.getDocumentCommentNum()+"");
 
+        TextView withMeTextView = (TextView)findViewById(R.id.withMeNum);
+        withMeTextView.setText(documentMarker.getDocumentResponseWithme()+"");
 
+        TextView notNiceTextView = (TextView)findViewById(R.id.notNiceNum);
+        notNiceTextView.setText(documentMarker.getDocumentResponseNotgood()+"");
+
+        TextView seeyaTextView = (TextView)findViewById(R.id.seeyaNum);
+        seeyaTextView.setText(documentMarker.getDocumentResponseSeeyou()+"");
+
+        Button writeCommentBtn = (Button)findViewById(R.id.writeCommentBtn);
+        writeCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date currentDate =new Date();
+                String inputText = null;
+                inputText = editText.getText().toString();
+                if(inputText != null) {
+
+                    Comment comment = new Comment(0, documentMarker.getId(),user.getUserId(),user.getUserName(), user.getImageUri(), inputText, currentDate, 0);
+                    Log.i("코멘트",user.getUserName());
+                    Log.i("이름",user.getUserId());
+                    documentMarker.getCommentList().add(comment);
+                    // TODO: 2016. 9. 23. documentid 처리
+                    postComment();
+                    commentLayout.addView(createCommentLayout(user.getImageUri(), user.getUserName(), DataHandler.getDateString(currentDate), inputText));
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"입력 내용 없음",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        List<Comment> comments = documentMarker.getCommentList();
+        for(int i=0; i<comments.size(); i++) {
+            System.out.println("urllll: "+comments.get(i).getUserImageUrl());
+            commentLayout.addView(createCommentLayout(comments.get(i).getUserImageUrl(), comments.get(i).getUserName(), DataHandler.getDateString(comments.get(i).getCreateDate()), comments.get(i).getContent()));
+        }
     }
 
-    public RelativeLayout createCommentLayout(Bitmap profileImg, String name, String time, String comment) {
+
+    public void postComment() {
+
+        FirebaseDatabase.getInstance().getReference().child("posts")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Document temp = child.getValue(Document.class);
+                            if(temp.getDocumentId() == documentMarker.getId()) {
+                                temp.setCommentList(documentMarker.getCommentList());
+                                child.getRef().setValue(temp);
+                            }
+                            else continue;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public RelativeLayout createCommentLayout(String profileUri, String name, String time, String comment) {
         RelativeLayout commentLayout = new RelativeLayout(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         commentLayout.setPadding(commentLayoutPadding, commentLayoutPadding, commentLayoutPadding, commentLayoutPadding);
@@ -214,8 +330,7 @@ public class ReadDocumentActivity extends Activity {
         RelativeLayout.LayoutParams profileParams = new RelativeLayout.LayoutParams(commentCircleSize, commentCircleSize);
         profileParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         profileParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        Drawable img = new BitmapDrawable(getCircularBitmapWithWhiteBorder(profileImg, commentCircleSize, commentCircleSize, commentBorder));
-        profile.setBackground(img);
+        Picasso.with(this).load(profileUri).into(profile);
         profile.setLayoutParams(profileParams);
         commentLayout.addView(profile);
 

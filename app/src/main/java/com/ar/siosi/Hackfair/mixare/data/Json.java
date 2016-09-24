@@ -48,12 +48,9 @@ public class Json extends DataHandler {
         JSONObject jo = null;
         JSONArray dataArray = null;
         List<Marker> markers = new ArrayList<Marker>();
-
-
+        Marker.markersList.clear();
 
         try {
-
-
             if (root.has("result") && root.getJSONObject("result").has("site")) // d연결 가능한 링크를 가졌을시
                 dataArray = root.getJSONObject("result").getJSONArray("site");
             else {
@@ -104,8 +101,10 @@ public class Json extends DataHandler {
 
                     }
                     // 마커 추가
-                    if (ma != null)
+                    if (ma != null) {
                         markers.add(ma);
+                        Marker.markersList.add(ma);
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -141,11 +140,19 @@ public class Json extends DataHandler {
 
         if(jo.has("commentList")) {
             JSONArray commentArray = jo.getJSONArray("commentList");
+            Log.i("댓글 목록이다.",commentArray.toString());
             for(int i = 0 ; i < commentArray.length(); i++) {
-                //Comment commentTemp = (Comment)commentArray.get(i).getClass();
-                //Log.i("댓글 리스트",commentTemp.toString());
-                //comments.add(commentTemp);
-                // TODO: 2016. 9. 21. 여기 댓글다는것도 구현해야함
+                Comment loadComment = new Comment();
+                JSONObject jobj = commentArray.getJSONObject(i);
+                loadComment.setCommentId(jobj.getInt("commentId"));
+                loadComment.setContent(jobj.getString("content"));
+                long commentEditDate = jobj.getJSONObject("createDate").getLong("time");
+                Date commentDdate = new java.util.Date( commentEditDate );
+                loadComment.setCreateDate(commentDdate);
+                loadComment.setUserId(jobj.getString("userId"));
+                loadComment.setUserName(jobj.getString("userName"));
+                loadComment.setUserImageUrl(jobj.getString("userImageUrl"));
+                comments.add(loadComment);
 
             }
         }
@@ -154,7 +161,7 @@ public class Json extends DataHandler {
         // contenturl 걍 글인 경우
         // 댓글이 있는 경우 없는경우
 
-        ma = new DocumentMarker(jo.getString("content"),jo.getDouble("lat"),jo.getDouble("lon"),0,contentUrl,thisDatasource,contentType,
+        ma = new DocumentMarker(jo.getString("content"),jo.getDouble("lat"),jo.getDouble("lon"),0,contentUrl,thisDatasource,jo.getInt("documentId"),jo.getString("userId"),contentType,
                 jo.getInt("popularity"),jo.getInt("responseWithme"),jo.getInt("responseSeeyou"),jo.getInt("responseNotgood"),jo.getInt("commentNum"),jo.getInt("readNum"),createdate,
                 editDdate,comments);
 

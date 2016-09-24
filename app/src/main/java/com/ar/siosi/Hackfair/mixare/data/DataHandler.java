@@ -22,6 +22,7 @@ package com.ar.siosi.Hackfair.mixare.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -132,5 +133,27 @@ public class DataHandler implements Serializable{
 	// 리스트내의 인덱스에 인취하는 마커를 리턴
 	public Marker getMarker(int index) {
 		return markerList.get(index);
+	}
+
+	public static String getDateString(Date createDate) {
+		System.out.println("aaa "+System.currentTimeMillis());
+		System.out.println("aaa "+createDate.getTime());
+		long timeDiff = System.currentTimeMillis() - createDate.getTime();
+		System.out.println("timeDiffqweqwe "+timeDiff);
+
+		if(timeDiff < 1000)
+			return "방금";
+		else if(timeDiff < 60000)
+			return "방금";
+		else if(timeDiff < 3600000)
+			return (timeDiff/(60000))+"분 전";
+		else if(timeDiff < 86400000)
+			return (timeDiff/(3600000))+"시간 전";
+		else if(timeDiff < 2592000000L)
+			return (timeDiff/(86400000))+"일 전";
+		else if(timeDiff >= 31104000000L)
+			return (timeDiff/(2592000000L))+"달 전";
+		else
+			return (timeDiff/(31104000000L))+"년 전";
 	}
 }

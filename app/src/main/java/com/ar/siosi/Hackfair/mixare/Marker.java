@@ -32,6 +32,8 @@ import com.ar.siosi.Hackfair.mixare.render.MixVector;
 import java.io.Serializable;
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 // 화면에 찍힐 마커를 담당할 클래스. Comparable 구현
 abstract public class Marker implements Comparable<Marker> {
@@ -66,6 +68,8 @@ abstract public class Marker implements Comparable<Marker> {
 	protected Label txtLab = new Label();    // Label 클래스는 하단에서 정의한다
 	protected TextObj textBlock;
 
+	public static List<Marker> markersList= new ArrayList<>();
+
 	//TODO : NAVER MARKER용 설명
 	private String description = "";
 
@@ -78,9 +82,7 @@ abstract public class Marker implements Comparable<Marker> {
 		// 각 속성값 할당
 		this.title = title;
 		this.mGeoLoc = new PhysicalPlace(latitude, longitude, altitude);
-		if (link != null && link.length() > 0) {
-			URL = "webpage:" + URLDecoder.decode(link);
-		}
+		this.URL = link;
 		this.datasource = datasource;
 
 		// 마커의 ID는 '데이터소스##타이틀' 형태이다

@@ -135,8 +135,11 @@ public class WriteDocumentActivity extends Activity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                WriteDocument(destination);
+                if(editText.getText().toString().length() == 0 && destination == null) {
+                    Toast.makeText(WriteDocumentActivity.this, "아무런 텍스트가 입력하지 않습니다", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    WriteDocument(destination);
             }
         });
     }
@@ -165,8 +168,6 @@ public class WriteDocumentActivity extends Activity {
         } else if (requestCode == REQUEST_VIDEO) {
             if (resultCode == RESULT_OK) {
                 System.out.println("asdasd2 " + requestCode);
-
-
                 videoView.setVideoPath(destination.getPath());
                 videoView.start();
 
@@ -271,7 +272,6 @@ public class WriteDocumentActivity extends Activity {
         if(file == null) return 0;
 
         String[] extension = file.getName().split("\\.");
-
 
         Log.i("extension",extension[1]);
         if (extension[1].equals("jpg") || extension[1].equals("png")) {

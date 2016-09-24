@@ -328,7 +328,8 @@ public class DataView {
                 }
             }
             if (dm.isDone()) {    // 다운로드 관리자의 작업이 끝난 경우
-                retry = 0;    // 재시도 횟수 초기화
+                retry = 0;
+                // 재시도 횟수 초기화
                 state.nextLStatus = MixState.DONE;    // 다음 상태는 완료로
             }
         }
@@ -336,16 +337,9 @@ public class DataView {
 		/* 마커 업데이트 */
         dataHandler.updateActivationStatus(mixContext);    // 활성화 상태를 갱신
         // 각각의 마커에 적용
+        Log.i("마커들 갯수",Integer.toString(dataHandler.getMarkerCount()));
         for (int i = dataHandler.getMarkerCount() - 1; i >= 0; i--) {
             Marker ma = dataHandler.getMarker(i);
-
-
-            //  if(ma.getDatasource() == DATASOURCE.ARRIVEBUS)
-            //    Toast.makeText(mixContext,"dddddd",Toast.LENGTH_LONG).show();
-
-            //if (ma.isActive() && (ma.getDistance() / 1000f < radius || ma instanceof NavigationMarker || ma instanceof SocialMarker)) {
-
-            // 마커의 거리가 현재 위치에서 검색 반경 내에 들어있을 경우
 
             //  && (ma.getDistance() / 1000f < radius) 아래거에넣어야됨
             if (ma.isActive()) {
@@ -359,7 +353,6 @@ public class DataView {
                 //	ma.update(curFix);
                 if (!frozen) {
                     float addTemp = 450;
-
 
                     //  Log.i("addY값 0_<", String.valueOf(addY));
 

@@ -305,7 +305,7 @@ public class GoogleSignInActivity extends BaseActivity implements
 
                     };
 
-                    User userTemp = new User(firebaseUser.getUid(),firebaseUser.getEmail(),firebaseUser.getDisplayName(),null,photoUrl,0,0,null,null);
+                    User userTemp = new User(firebaseUser.getUid(),firebaseUser.getDisplayName(),firebaseUser.getEmail(),null,photoUrl,0,0,null,null);
                     registerUser(uid,userTemp);
                     User.currentUser = userTemp;
                     Log.i("신규 유저 정보",User.currentUser.toString());

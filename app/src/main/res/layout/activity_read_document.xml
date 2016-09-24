@@ -60,7 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="10"
+                        android:id="@+id/commentNum"
                         android:textColor="#000000"/>
                 </LinearLayout>
                 <LinearLayout
@@ -85,23 +85,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="10"
-                            android:textColor="#000000"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_emotion_seeya"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="10"
+                            android:id="@+id/withMeNum"
                             android:textColor="#000000"/>
                     </LinearLayout>
                     <LinearLayout
@@ -117,7 +101,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="10"
+                            android:id="@+id/notNiceNum"
+                            android:textColor="#000000"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_emotion_seeya"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:id="@+id/seeyaNum"
                             android:textColor="#000000"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -126,7 +126,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="8"
+                android:layout_weight="10"
                 android:background="#E6E6E6">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -138,14 +138,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="#FFFFFF">
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="8"
                     android:textColor="#000000"
-                    android:textSize="12dp"
+                    android:textSize="16dp"
                     android:hint="댓글을 작성해 주세요."
                     android:textColorHint="#60000000"
                     android:id="@+id/comment"/>

@@ -30,8 +30,8 @@ public class User {
     public User(String userId,String userName,String userEmail,String userDescription,String imageUri,
                 int folloingNumber,int followerNumber,List<String> haveFollowingList,List<String> haveFollowerList) {
         this.userId = userId;
-        this.userEmail = userEmail;
         this.userName = userName;
+        this.userEmail = userEmail;
         this.userDescription = userDescription;
         this.imageUri = imageUri;
         this.folloingNumber = folloingNumber;
